@@ -1,0 +1,25 @@
+name: Test ESIOS Token
+
+on:
+  workflow_dispatch:  # run manually
+
+jobs:
+  test-token:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run test_esios_token.py
+        env:
+          API_TOKEN: ${{ secrets.ESIOS_API_TOKEN }}
+        run: python scripts/test_esios_token.py
