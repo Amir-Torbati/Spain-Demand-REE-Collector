@@ -1,0 +1,28 @@
+# .github/workflows/collect_demand_historical.yml
+
+name: Collect Historical Demand Data
+
+on:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas duckdb pyarrow
+
+      - name: Run historical demand collector
+        env:
+          API_TOKEN: ${{ secrets.ESIOS_API_TOKEN }}
+        run: python scripts/collect_demand_historical.py
